@@ -6,7 +6,6 @@ use AllowDynamicProperties;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LeaveRequest;
 use App\Interfaces\EmployeeLeaveInterface;
-use App\Models\EmployeeLeave;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -27,7 +26,7 @@ class EmployeeController extends Controller
      */
     public function index(): View
     {
-        $statusCounts = EmployeeLeave::query()
+        $statusCounts = Auth::user()->employeeLeaves()
             ->groupBy('status')
             ->selectRaw('status, count(*) as count')
             ->get();
