@@ -10,7 +10,6 @@ use App\Interfaces\AuthenticationInterface;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response as HttpResponse;
-use Illuminate\Support\Facades\Auth;
 
 #[AllowDynamicProperties]
 class AuthenticationController extends Controller
@@ -65,10 +64,21 @@ class AuthenticationController extends Controller
     {
         $credentials = $request->only(['email', 'password']);
 
-        if (Auth::attempt($credentials)) {
+        if ($this->authenticationRepository->login($credentials)) {
             return redirect()->route('employee.dashboard')->with('success', 'Login successful.')->setStatusCode(HttpResponse::HTTP_OK);
         }
 
         return redirect()->back()->with('error', 'Invalid credentials.')->setStatusCode(HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    /**
+     * Logout a user
+     * @return RedirectResponse
+     */
+    public function logout(): RedirectResponse
+    {
+        $this->authenticationRepository->logout();
+
+        return redirect()->route('login')->with('success', 'Logout successful.')->setStatusCode(HttpResponse::HTTP_OK);
     }
 }

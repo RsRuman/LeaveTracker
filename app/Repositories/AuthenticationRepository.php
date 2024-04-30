@@ -4,11 +4,12 @@ namespace App\Repositories;
 
 use App\Interfaces\AuthenticationInterface;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AuthenticationRepository implements AuthenticationInterface
 {
     /**
-     * Register an user
+     * Register a user
      * @param array $data
      * @return mixed
      */
@@ -21,8 +22,26 @@ class AuthenticationRepository implements AuthenticationInterface
         ]);
     }
 
-    public function login(array $data)
+    /**
+     * Login a user
+     * @param array $credentials
+     * @return bool
+     */
+    public function login(array $credentials): bool
     {
-        // TODO: Implement login() method.
+        if (Auth::attempt($credentials)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Logout a user
+     * @return null
+     */
+    public function logout(): null
+    {
+        return Auth::logout();
     }
 }

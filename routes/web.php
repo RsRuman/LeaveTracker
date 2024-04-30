@@ -24,6 +24,9 @@ Route::post('/sign-up', [AuthenticationController::class, 'registration'])->name
 Route::get('/sign-in', [AuthenticationController::class, 'loginForm'])->name('login');
 Route::post('/sign-in', [AuthenticationController::class, 'login'])->name('login.submit');
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+});
 
 Route::group(['prefix' => 'employee', 'middleware' => 'auth', 'as' => 'employee.'], function () {
     Route::get('dashboard', [ EmployeeController::class, 'index'])->name('dashboard');
