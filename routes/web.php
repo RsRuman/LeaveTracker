@@ -29,7 +29,10 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::group(['prefix' => 'employee', 'middleware' => 'auth', 'as' => 'employee.'], function () {
-    Route::get('dashboard', [ EmployeeController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [EmployeeController::class, 'index'])->name('dashboard');
+    Route::get('leave-request', [EmployeeController::class, 'createLeaveRequest'])->name('leaveRequest.create');
+    Route::post('leave-request', [EmployeeController::class, 'storeLeaveRequest'])->name('leaveRequest.store');
+    Route::get('leave-histories', [EmployeeController::class, 'leaveRequestHistories'])->name('leaveRequest.histories');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], function () {

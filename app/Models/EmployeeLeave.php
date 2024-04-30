@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\EmployeeLeaveStatusEnum;
+use App\Enums\EmployeeLeaveTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,6 +20,14 @@ class EmployeeLeave extends Model
         'end_date',
         'status'
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'type'   => EmployeeLeaveTypeEnum::class,
+            'status' => EmployeeLeaveStatusEnum::class,
+        ];
+    }
 
     /**
      * user

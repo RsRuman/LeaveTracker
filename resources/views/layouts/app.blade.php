@@ -15,7 +15,7 @@
         @include('components._sidebar')
 
         <!-- Content -->
-        <div class="content">
+        <div class="content bg-white">
             @yield('content')
         </div>
     </div>
