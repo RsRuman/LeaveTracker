@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use AllowDynamicProperties;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateEmployeeStatusRequest;
+use App\Http\Requests\UpdateLeaveRequest;
 use App\Interfaces\AdminInterface;
 use App\Models\EmployeeLeave;
 use Exception;
@@ -22,6 +23,11 @@ class AdminController extends Controller
         $this->adminRepository = $adminRepository;
     }
 
+    /**
+     * Admin Dashboard
+     * @param Request $request
+     * @return View
+     */
     public function index(Request $request): View
     {
         $statusCounts = EmployeeLeave::query()
@@ -32,6 +38,11 @@ class AdminController extends Controller
         return view('admin.index', compact('statusCounts'));
     }
 
+    /**
+     * Employee list
+     * @param Request $request
+     * @return View
+     */
     public function employeeList(Request $request): View
     {
         $perPage = $request->query('per_page', 10);
@@ -41,6 +52,12 @@ class AdminController extends Controller
         return view('admin.employee', compact('employees'));
     }
 
+    /**
+     * Update employee status
+     * @param UpdateEmployeeStatusRequest $request
+     * @param $id
+     * @return RedirectResponse
+     */
     public function updateEmployeeStatus(UpdateEmployeeStatusRequest $request, $id): RedirectResponse
     {
         $validator = Validator::make($request->all(), $request->rules());
@@ -58,5 +75,46 @@ class AdminController extends Controller
         }
 
         return redirect()->route('admin.employee.list')->with('error', 'Could not update. Please try later.')->setStatusCode(HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    /**
+     * Get leave histories
+     * @param Request $request
+     * @return View
+     */
+    public function leaveHistories(Request $request): View
+    {
+        $perPage = $request->query('per_page', 10);
+
+        $employeeLeaves = $this->adminRepository->getLeaveRequest($request, $perPage);
+
+        return view('admin.leave_request_history', compact('employeeLeaves'));
+    }
+
+    /**
+     * Update leave history
+     * @param UpdateLeaveRequest $request
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function updateLeaveHistory(UpdateLeaveRequest $request, $id): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), $request->rules());
+
+        try {
+            if (!$validator->fails()) {
+                $updateLeave = $this->adminRepository->updateLeaveRequest($id, $request->input('status'), $request->input('comment'));
+
+                if (!$updateLeave) {
+                    throw new Exception("Error Processing Request", HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
+                }
+
+                return redirect()->route('admin.employee.leave.histories')->with('success', 'Employee leave updated successfully.')->setStatusCode(HttpResponse::HTTP_OK);
+            }
+        } catch (Exception $exception) {
+            return redirect()->route('admin.employee.leave.histories')->with('error', $exception->getMessage())->setStatusCode(HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        return redirect()->route('admin.employee.leave.histories')->with('error', 'Could not update. Please try later.')->setStatusCode(HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

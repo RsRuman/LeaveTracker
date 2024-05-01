@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('reason');
             $table->date('start_date');
             $table->date('end_date');
+            $table->text('comments')->nullable();
             $table->string('status')->default('pending');
             $table->timestamps();
         });

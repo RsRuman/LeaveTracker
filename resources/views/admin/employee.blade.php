@@ -22,3 +22,7 @@
     @include('components.employee_list_table', ['employees' => $employees])
     @include('components.approve_block_modal')
 @endsection
+
+@section('js')
+    <script src="{{ asset('js/admin.js') }}"></script>
+@endsection

@@ -35,7 +35,7 @@ class GenerateAdminCommand extends Command
             'email'    => $email,
             'password' => bcrypt($password),
             'type'     => 'admin',
-            'status'   => 'active'
+            'status'   => 'approved'
         ]);
 
         $this->info('Admin user created!');

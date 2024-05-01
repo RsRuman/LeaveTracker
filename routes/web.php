@@ -40,4 +40,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'], 'as' => 'a
     Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('employees', [AdminController::class, 'employeeList'])->name('employee.list');
     Route::post('employees/{id}', [AdminController::class, 'updateEmployeeStatus'])->name('employee.update.status');
+    Route::get('employees/leave-histories', [AdminController::class, 'leaveHistories'])->name('employee.leave.histories');
+    Route::post('employees/leave-histories/{id}', [AdminController::class, 'updateLeaveHistory'])->name('employee.leave.history.update');
 });

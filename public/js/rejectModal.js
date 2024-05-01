@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const modalOpenButtons = document.querySelectorAll('.modal-open-approved-blocked');
-    const modal = document.querySelector('.modal-approved-blocked');
+    const modalOpenButtons = document.querySelectorAll('.modal-open-approved-rejected');
+    const modal = document.querySelector('.modal-approved-rejected');
     const closeModalButtons = document.querySelectorAll('.modal-close');
     const submitForm = document.getElementById('submitForm');
     const statusInput = document.getElementById('status');
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const status = button.dataset.status;
 
             // Set the action and status in the form
-            submitForm.action = `/admin/employees/${employeeId}`;
+            submitForm.action = `/admin/employees/leave-histories/${employeeId}`;
             statusInput.value = status;
         });
     });

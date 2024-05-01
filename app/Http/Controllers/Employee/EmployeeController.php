@@ -71,7 +71,7 @@ class EmployeeController extends Controller
     {
         $perPage        = $request->query('per_page', 2);
 
-        $employeeLeaves = $this->employeeLeaveRepository->histories($perPage);
+        $employeeLeaves = $this->employeeLeaveRepository->histories($request, $perPage);
 
         return view('employee.leave_request_history', compact('employeeLeaves'));
     }

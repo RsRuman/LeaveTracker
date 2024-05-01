@@ -2,9 +2,11 @@
 
 namespace App\Interfaces;
 
+use Illuminate\Http\Request;
+
 interface EmployeeLeaveInterface
 {
     public function store(Array $data);
 
-    public function histories(int $perPage);
+    public function histories(Request $request, int $perPage);
 }
