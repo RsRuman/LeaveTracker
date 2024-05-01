@@ -27,13 +27,17 @@
                                 {{ $employee->status }}
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 capitalize">
-                                @if($employee->status->value === 'pending')
-                                    <button class="bg-blue-500 text-white px-2 py-1 rounded">
+                                @if($employee->status->value === 'pending' || $employee->status->value === 'blocked')
+                                    <button class="modal-open-approved-blocked bg-blue-500 text-white px-2 py-1 rounded"
+                                            data-id="{{ $employee->id }}"
+                                            data-status="approved">
                                         <i class="bi bi-check-circle"></i>
                                         Approved
                                     </button>
                                 @else
-                                    <button class="bg-red-500 text-white px-2 py-1 rounded">
+                                    <button class="modal-open-approved-blocked bg-red-500 text-white px-2 py-1 rounded"
+                                            data-id="{{ $employee->id }}"
+                                            data-status="blocked">
                                         <i class="bi bi-x-circle"></i>
                                         Blocked
                                     </button>

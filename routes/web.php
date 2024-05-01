@@ -39,4 +39,5 @@ Route::group(['prefix' => 'employee', 'middleware' => ['auth', 'employee'], 'as'
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'], 'as' => 'admin.'], function () {
     Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('employees', [AdminController::class, 'employeeList'])->name('employee.list');
+    Route::post('employees/{id}', [AdminController::class, 'updateEmployeeStatus'])->name('employee.update.status');
 });

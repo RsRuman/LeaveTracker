@@ -14,4 +14,11 @@ class AdminRepository implements AdminInterface
             ->where('type', 'employee')
             ->paginate($perPage);
     }
+
+    public function updateEmployeeStatus(string $id, string $status): bool|int
+    {
+        return User::query()
+            ->findOrFail($id)
+            ->update(['status' => $status]);
+    }
 }

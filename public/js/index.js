@@ -1,10 +1,3 @@
-// function dropdown() {
-//     document.querySelector("#submenu").classList.toggle("hidden");
-//     document.querySelector("#arrow").classList.toggle("rotate-0");
-// }
-//
-// dropdown();
-
 document.addEventListener('DOMContentLoaded', function () {
     const modalOpenButtons = document.querySelectorAll('.modal-open');
     const modal = document.querySelector('.modal');
@@ -65,4 +58,3 @@ document.addEventListener('DOMContentLoaded', function () {
         modal.classList.add('pointer-events-none');
     }
 });
-

@@ -19,7 +19,7 @@
             @yield('content')
         </div>
     </div>
-    <script src="{{ asset('js/index.js') }}"></script>
+    <script src="{{ asset('js/admin.js') }}"></script>
 </main>
 </body>
 </html>
