@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Employee\EmployeeController;
 use Illuminate\Support\Facades\Auth;
@@ -28,15 +29,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
 });
 
-Route::group(['prefix' => 'employee', 'middleware' => 'auth', 'as' => 'employee.'], function () {
+Route::group(['prefix' => 'employee', 'middleware' => ['auth', 'employee'], 'as' => 'employee.'], function () {
     Route::get('dashboard', [EmployeeController::class, 'index'])->name('dashboard');
     Route::get('leave-request', [EmployeeController::class, 'createLeaveRequest'])->name('leaveRequest.create');
     Route::post('leave-request', [EmployeeController::class, 'storeLeaveRequest'])->name('leaveRequest.store');
     Route::get('leave-histories', [EmployeeController::class, 'leaveRequestHistories'])->name('leaveRequest.histories');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], function () {
-    Route::get('dashboard', function () {
-        echo 'admin dashboard';
-    })->name('dashboard');
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'], 'as' => 'admin.'], function () {
+    Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('employees', [AdminController::class, 'employeeList'])->name('employee.list');
 });

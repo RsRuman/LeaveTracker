@@ -1,4 +1,4 @@
-@extends('layouts.employee')
+@extends('layouts.admin')
 
 @section('title')
     Leave Tracker | Dashboard
@@ -14,7 +14,7 @@
 
     <div class="h-56 grid grid-cols-3 gap-4">
         @foreach($statusCounts as $statusCount)
-                @include('components.block', ['statusCount' => $statusCount])
+            @include('components.block', ['statusCount' => $statusCount])
         @endforeach
     </div>
 

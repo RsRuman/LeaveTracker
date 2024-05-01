@@ -10,6 +10,7 @@ use App\Interfaces\AuthenticationInterface;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Support\Facades\Auth;
 
 #[AllowDynamicProperties]
 class AuthenticationController extends Controller
@@ -65,6 +66,10 @@ class AuthenticationController extends Controller
         $credentials = $request->only(['email', 'password']);
 
         if ($this->authenticationRepository->login($credentials)) {
+            if (Auth::user()->type === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
+
             return redirect()->route('employee.dashboard')->with('success', 'Login successful.')->setStatusCode(HttpResponse::HTTP_OK);
         }
 
