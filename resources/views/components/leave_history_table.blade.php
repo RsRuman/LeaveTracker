@@ -47,6 +47,7 @@
                         <th scope="col" class="px-6 py-4">End date</th>
                         <th scope="col" class="px-6 py-4">Reason</th>
                         <th scope="col" class="px-6 py-4">Status</th>
+                        <th scope="col" class="px-6 py-4">Comment</th>
                         <th scope="col" class="px-6 py-4">Actions</th>
                     </tr>
                     </thead>
@@ -63,6 +64,7 @@
                                 {{ $employeeLeave->status->value === 'pending' ? 'text-orange-500' : ($employeeLeave->status->value === 'rejected' ? 'text-red-500' : 'text-green-500') }}">
                                 {{ $employeeLeave->status }}
                             </td>
+                            <td class="whitespace-nowrap px-6 py-4 capitalize">{{ $employeeLeave->comments ?? 'N/A' }}</td>
                             <td class="whitespace-nowrap px-6 py-4 capitalize">
                                 <button class="modal-open bg-blue-500 text-white px-2 py-1 rounded"
                                         data-type="{{ $employeeLeave->type }}"

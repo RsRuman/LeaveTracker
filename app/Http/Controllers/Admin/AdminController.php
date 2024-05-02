@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateEmployeeStatusRequest;
 use App\Http\Requests\UpdateLeaveRequest;
 use App\Interfaces\AdminInterface;
 use App\Models\EmployeeLeave;
+use App\Notifications\LeaveNotification;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -108,6 +109,10 @@ class AdminController extends Controller
                 if (!$updateLeave) {
                     throw new Exception("Error Processing Request", HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
                 }
+                $employeeLeave = EmployeeLeave::query()->with('user')->findOrFail($id);
+
+                // Sending mail notification
+                $employeeLeave->user->notify(new LeaveNotification($employeeLeave));
 
                 return redirect()->route('admin.employee.leave.histories')->with('success', 'Employee leave updated successfully.')->setStatusCode(HttpResponse::HTTP_OK);
             }
